@@ -38,3 +38,22 @@ extension Acronym: Preparation {
         try database.delete(self)
     }
 }
+
+extension Acronym: JSONConvertible {
+    convenience init(json: JSON) throws {
+        try self.init(
+            short: json.get("short"),
+            long: json.get("long")
+        )
+    }
+    
+    func makeJSON() throws -> JSON {
+        var json = JSON()
+        try json.set("id", id)
+        try json.set("short", short)
+        try json.set("long", long)
+        return json
+    }
+}
+
+extension Acronym: ResponseRepresentable { }
